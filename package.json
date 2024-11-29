@@ -1,0 +1,12 @@
+{
+  "name": "astro-vue-auth-template",
+  "version": "1.0.0",
+  "author": "billyledev",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
