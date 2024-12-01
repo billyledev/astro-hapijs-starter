@@ -1,0 +1,65 @@
+---
+import { Icon } from 'astro-icon/components';
+import Container from '@components/Container.astro';
+
+import { SITE } from '@data/constants';
+
+interface FooterLink {
+  description: string;
+  icon: string;
+  url: string;
+}
+
+const links: Array<FooterLink> = [
+  {
+    url: 'https://github.com/billyledev',
+    description: '@billyledev on GitHub',
+    icon: 'ri:github-fill',
+  },
+  {
+    url: 'https://x.com/billythedev',
+    description: '@billythedev on X',
+    icon: 'ri:twitter-x-line',
+  },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="py-8 border-t border-black/10 dark:border-white/20">
+  <Container>
+    <div class="flex flex-wrap items-center justify-center z-10">
+      <ul class="relative grid grid-cols-2 gap-4">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                class="flex items-center justify-center link silent"
+                target="_blank"
+                href={link.url}
+              >
+                <span class="sr-only">{link.description}</span>
+                <Icon name={link.icon} size="1.33em"/>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="w-screen text-center text-sm pt-6">
+        <div>© {SITE.title} {currentYear}</div>
+        <br/>
+        <a href="/terms" class="link silent">
+          Terms and Conditions
+        </a>
+        <br/>
+        <a href="/privacy" class="link silent">
+          Privacy Policy
+        </a>
+        <br/>
+        <a href="/cookies" class="link silent">
+          Cookie Policy
+        </a>
+      </div>
+    </div>
+  </Container>
+</footer>

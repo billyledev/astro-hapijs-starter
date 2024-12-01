@@ -1,0 +1,119 @@
+---
+import Container from '@components/Container.astro';
+import ThemeToggle from '@components/buttons/ThemeToggle.astro';
+
+import { SITE } from '@data/constants';
+
+const currentPath = Astro.url.pathname;
+
+const getHomeAnchor = (anchor: string) => currentPath === '/' ? anchor : `/${anchor}`;
+
+const links = [
+  {
+    to: getHomeAnchor('#features'),
+    label: 'Features',
+  },
+  {
+    to: getHomeAnchor('#pricing'),
+    label: 'Pricing',
+  },
+  {
+    to: getHomeAnchor('#faqs'),
+    label: 'FAQs',
+  },
+];
+---
+
+<script>
+  let isToggled = false;
+  const navlinks = document.querySelector('#navlinks')!;
+  const hamburger = document.querySelector('#hamburger')!;
+  const layer = document.querySelector('#navLayer')!;
+  const links = [...navlinks.querySelector('ul')?.children!];
+
+  function toggleNavlinks() {
+    if (isToggled) {
+      navlinks.classList.add('!visible', '!scale-100', '!opacity-100', '!lg:translate-y-0');
+      hamburger.classList.add('toggled');
+      layer.classList.add('origin-top', 'scale-y-100');
+    } else {
+      navlinks.classList.remove('!visible', '!scale-100', '!opacity-100', '!lg:translate-y-0');
+      hamburger.classList.remove('toggled');
+      layer.classList.remove('origin-top', 'scale-y-100');
+    }
+  }
+
+  hamburger.addEventListener('click', () => {
+    isToggled = !isToggled;
+    toggleNavlinks();
+  });
+
+  links.forEach((link) => {
+    link.addEventListener('click', () => {
+      isToggled = !isToggled;
+      toggleNavlinks();
+    });
+  });
+</script>
+
+<header>
+  <nav class="fixed top-0 z-10 w-full backdrop-blur-md border-b border-black/10 dark:border-white/20">
+    <Container>
+      <div class="relative flex flex-wrap items-center justify-between gap-6 py-3 md:gap-0 md:py-4">
+        <div class="relative z-20 flex w-full justify-between md:px-0 lg:w-max">
+          <a href={getHomeAnchor('#')} aria-label="logo" class="flex items-center">
+            <div class="text-2xl font-bold">{SITE.title}</div>
+          </a>
+
+          <div class="relative flex max-h-10 items-center lg:hidden">
+            <button aria-label="hamburger" id="hamburger" class="group relative -mr-6 p-6">
+              <div aria-hidden="true" id="line" class="m-auto h-0.5 w-5 rounded transition duration-300 bg-black dark:bg-white group-hover:bg-primary"></div>
+              <div aria-hidden="true" id="line2" class="m-auto mt-2 h-0.5 w-5 rounded transition duration-300 bg-black dark:bg-white group-hover:bg-primary"></div>
+            </button>
+          </div>
+        </div>
+        <div id="navLayer" aria-hidden="true" class="fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 backdrop-blur-2xl transition duration-500 lg:hidden"></div>
+        <div id="navlinks" class="invisible align-middle absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-black/10 dark:border-white/20 p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none bg-white dark:bg-neutral-900 lg:bg-transparent dark:lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none">
+          <div class="w-full lg:w-auto lg:pt-0 mr-2">
+            <ul class="flex flex-col tracking-wide lg:flex-row gap-4 lg:text-sm items-center">
+              {
+                links.map((link) => (
+                  <li>
+                    <a href={link.to} class="transition silent">
+                      <span>{link.label}</span>
+                    </a>
+                  </li>
+                ))
+              }
+              <li>
+                <ThemeToggle/>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </nav>
+</header>
+
+<style>
+  #toggle_nav:checked ~ div #hamburger #line {
+    @apply translate-y-1.5 rotate-45;
+  }
+
+  #toggle_nav:checked ~ div #hamburger #line2 {
+    @apply -translate-y-1 -rotate-45;
+  }
+
+  .toggled div:first-child {
+    @apply translate-y-1.5 rotate-45;
+  }
+  .toggled div:last-child {
+    @apply -translate-y-1 -rotate-45;
+  }
+</style>
+
+<script>
+  import '@preline/collapse/index.js';
+  import '@preline/overlay/index.js';
+</script>

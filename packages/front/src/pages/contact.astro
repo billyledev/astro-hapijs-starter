@@ -1,0 +1,15 @@
+---
+import DefaultLayout from '@layouts/Default.astro';
+import ContactForm from '@components/forms/Contact.vue';
+
+const title = 'Contact Us';
+---
+
+<DefaultLayout title={title}>
+	<main class="py-16 space-y-16">
+		<div class="w-full md:w-2/3 lg:w-1/2 mx-auto px-4 text-center">
+      <h2 class="pb-8">{title}</h2>
+			<ContactForm client:only="vue"/>
+    </div>
+	</main>
+</DefaultLayout>

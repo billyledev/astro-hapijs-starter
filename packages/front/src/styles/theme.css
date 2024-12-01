@@ -1,0 +1,57 @@
+@layer base {
+  :root {
+    --color-primary: theme("colors.slate.400");
+
+    .p-inputtext::placeholder:not(.show-placeholder) {
+      color: transparent;
+    }
+    
+    .p-inputtext:focus::placeholder {
+       color: inherit;
+    }
+
+    .p-inputtext.p-invalid::placeholder {
+      color: transparent;
+    }
+
+    .p-textarea::placeholder {
+      color: transparent;
+    }
+    
+    .p-textarea:focus::placeholder {
+       color: inherit;
+    }
+  }
+
+  :root.dark {
+    --color-primary: theme("colors.slate.500");
+
+    body {
+      @apply bg-white dark:bg-neutral-900;
+    }
+  }
+
+  a.link {
+    @apply text-primary font-semibold hover:underline;
+  }
+
+  a.silent {
+    @apply text-current font-medium hover:text-primary;
+  }
+
+  .accent-main {
+    @apply accent-primary-500 dark:accent-primary-400;
+  }
+
+  h1 {
+    @apply scroll-mt-24 text-6xl font-semibold;
+  }
+
+  h2 {
+    @apply scroll-mt-24 text-4xl font-semibold;
+  }
+
+  h3 {
+    @apply scroll-mt-24 text-2xl font-semibold;
+  }
+}

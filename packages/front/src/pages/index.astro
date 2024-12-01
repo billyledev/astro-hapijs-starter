@@ -1,8 +1,28 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import DefaultLayout from '../layouts/Default.astro';
+
+import Hero from '@components/landing/Hero.vue';
+import Features from '@components/landing/Features.vue';
+import Pricing from '@components/landing/Pricing.vue';
+import FAQs from '@components/landing/FAQs.vue';
 ---
 
-<Layout>
-	<Welcome/>
-</Layout>
+<DefaultLayout>
+	<main class="py-16 space-y-16 text-center">
+		<div class="w-full md:w-2/3 lg:w-1/2 mx-auto px-4 pb-16">
+			<Hero client:only="vue"/>
+		</div>
+    <div class="w-full xl:w-3/4 px-4 md:px-16 mx-auto pb-16">
+      <h2 id="features">Main features</h1>
+      <Features client:only="vue"/>
+    </div>
+    <div class="w-full px-4 md:px-8 lg:px-8 xl:px-16 pb-16 mx-auto">
+      <h2 id="pricing">Pricing</h1>
+      <Pricing client:only="vue"/>
+    </div>
+    <div class="w-full xl:w-3/4 px-4 md:px-16 mx-auto">
+      <h2 id="faqs">FAQs</h2>
+      <FAQs client:only="vue"/>
+    </div>
+	</main>
+</DefaultLayout>

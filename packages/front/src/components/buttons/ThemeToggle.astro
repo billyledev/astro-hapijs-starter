@@ -1,0 +1,62 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<theme-toggle>
+  <button type="button" aria-label="Switch between dark and light themes" class="lg:align-sub inline-flex items-center group" data-aw-toggle-color-scheme>
+    <div class="flex">
+      <Icon id="icosun" name="ri:sun-line"/>
+      <Icon id="icomoon" name="ri:moon-line"/>
+    </div>
+  </button>
+</theme-toggle>
+
+<style>
+  :global(:not(.dark)) {
+    #icosun {
+      @apply text-gray-600 group-hover:text-primary w-4;
+    }
+  
+    #icomoon {
+      @apply text-transparent w-0;
+    }
+  }
+
+  :global(.dark) {
+    #icomoon {
+      @apply text-gray-200 group-hover:text-primary w-4;
+    }
+
+    #icosun {
+      @apply text-transparent group-hover:text-transparent w-0;
+    }
+  }
+</style>
+
+<script>
+	class ThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+
+			const button = this.querySelector('button')!;
+
+			const setTheme = (dark: boolean) => {
+				document.documentElement.classList[dark ? 'add' : 'remove']('dark');
+				button.setAttribute('aria-pressed', String(dark));
+			};
+
+			button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setTheme(!this.isDark());
+      });
+
+			setTheme(this.isDark());
+		}
+
+		isDark() {
+			return document.documentElement.classList.contains('dark');
+		}
+	}
+
+	customElements.define('theme-toggle', ThemeToggle);
+</script>

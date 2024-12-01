@@ -1,2 +1,5 @@
 # generated types
 .astro/
+
+# unplugin vue components
+components.d.ts
