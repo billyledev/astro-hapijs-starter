@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-  import { ref, reactive, onMounted, watch } from 'vue';
-  await import('altcha');
+  import { ref, reactive, watch } from 'vue';
+  import { authClient } from '@lib/auth-client';
+  import { useToast } from 'primevue/usetoast';
+
+  const toast = useToast();
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -15,7 +18,6 @@
   }
 
   const sending = ref(false);
-  const verified = ref(false);
 
   const initialValues: SigninData = {
     email: '',
@@ -30,19 +32,6 @@
   const formData = reactive<SigninData>({ ...initialValues });
   const errors = reactive<ErrorsData>({ ...initialErrorValues });
 
-  onMounted(() => {
-    const widget = document.querySelector('altcha-widget');
-
-    widget?.addEventListener('statechange', (e) => {
-      const { detail } = e as AltchaStateChangeEvent;
-      if (detail.state === 'verified') {
-        verified.value = true;
-      } else {
-        verified.value = false;
-      }
-    })
-  });
-
   watch(formData, async () => {
     clearErrors();
   });
@@ -51,7 +40,7 @@
     return Object.values(errors).some(error => error);
   };
 
-  const sendForm = (e: Event) => {
+  const sendForm = async (e: Event) => {
     e.preventDefault();
 
     if (!formData.email || formData.email === '') errors.email = true;
@@ -61,15 +50,33 @@
     if (hasError()) return;
 
     sending.value = true;
-  };
 
-  const resetCaptcha = () => {
-    (document.querySelector('altcha-widget') as any).reset();
+    await authClient.signIn.email({
+      email: formData.email,
+      password: formData.password,
+    }, {
+      onRequest: () => {
+        //show loading
+      }, 
+      onSuccess: () => {
+        console.log('Successfully signed in!');
+        sending.value = false;
+      }, 
+      onError: (ctx) => { 
+        console.error(ctx.error);
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Couldn\'t sign in, please try again!',
+          life: 3000,
+        });
+        sending.value = false;
+      },
+    });
   };
 
   const clearForm = () => {
     Object.assign(formData, initialValues);
-    resetCaptcha();
   };
 
   const clearErrors = () => {
@@ -78,7 +85,7 @@
 </script>
 
 <template>
-  <Card class="pt-4 mx-auto" fluid>
+  <Card class="mx-auto" fluid>
     <template #content>
       <FloatLabel class="mt-8">
         <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
@@ -90,18 +97,8 @@
         <label for="password">Password</label>
       </FloatLabel>
 
-      <div class="my-8 grid">
-        <altcha-widget
-          hideFooter
-          hideLogo
-          test
-          challengeurl="/api/challenge"
-          class="mx-auto accent-main"
-        ></altcha-widget>
-      </div>
-
-      <div class="text-center mt-4">
-        <Button type="submit" @click="sendForm" label="Send" :disabled="!verified || hasError() || sending"/>
+      <div class="text-center mt-8">
+        <Button type="submit" @click="sendForm" label="Send" :disabled="hasError() || sending"/>
       </div>
 
       <div class="text-center my-4">

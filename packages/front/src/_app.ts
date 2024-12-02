@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import PrimeVue from 'primevue/config';
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
+import ToastService from 'primevue/toastservice';
 
 import colors from 'tailwindcss/colors';
 
@@ -20,4 +21,5 @@ export default (app: App) => {
       },
     },
   });
+  app.use(ToastService);
 };

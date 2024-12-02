@@ -34,6 +34,15 @@ export default defineConfig({
     tailwind(),
   ],
   vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001',
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
     plugins: [
       Components({
         resolvers: [
