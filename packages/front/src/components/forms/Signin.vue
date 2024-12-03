@@ -67,7 +67,7 @@
         toast.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Couldn\'t sign in, please try again!',
+          detail: ctx.error.message,
           life: 3000,
         });
         sending.value = false;
