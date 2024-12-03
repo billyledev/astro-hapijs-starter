@@ -1,6 +1,10 @@
 <script lang="ts" setup>
   import { ref, reactive, onMounted, watch } from 'vue';
+  import { authClient } from '@lib/auth-client';
+  import { useToast } from 'primevue/usetoast';
   await import('altcha');
+
+  const toast = useToast();
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -57,7 +61,7 @@
     return Object.values(errors).some(error => error);
   };
 
-  const sendForm = (e: Event) => {
+  const sendForm = async (e: Event) => {
     e.preventDefault();
 
     if (!formData.name || formData.name === '' || formData.name.length < 2 || formData.name.length > 50) errors.name = true;
@@ -68,6 +72,34 @@
     if (hasError()) return;
 
     sending.value = true;
+
+    await authClient.signUp.email({
+      email: formData.email,
+      password: formData.password,
+      name: formData.name,
+      callbackURL: '/app',
+    }, {
+      onSuccess: () => {
+        toast.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Successfully signed up, please verify your email address!',
+          life: 3000,
+        });
+        sending.value = false;
+        clearForm();
+      },
+      onError: (ctx) => {
+        console.error(ctx.error);
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: ctx.error.message,
+          life: 3000,
+        });
+        sending.value = false;
+      },
+    });
   };
 
   const resetCaptcha = () => {
@@ -98,7 +130,7 @@
       </FloatLabel>
 
       <FloatLabel class="mt-8">
-        <Password id="password" v-model="formData.password" :invalid="errors.password" toggleMask fluid/>
+        <Password inputId="password" v-model="formData.password" :invalid="errors.password" toggleMask fluid/>
         <label for="password">Password</label>
       </FloatLabel>
 
