@@ -54,14 +54,8 @@
     await authClient.signIn.email({
       email: formData.email,
       password: formData.password,
+      callbackURL: '/app'
     }, {
-      onRequest: () => {
-        //show loading
-      }, 
-      onSuccess: () => {
-        console.log('Successfully signed in!');
-        sending.value = false;
-      }, 
       onError: (ctx) => { 
         console.error(ctx.error);
         toast.add({
