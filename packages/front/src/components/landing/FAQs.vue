@@ -6,7 +6,7 @@
 
   const qnas: QNA[] = [
     {
-      question: 'Why use Astro Vue Auth Template?',
+      question: 'Why use Astro HapiJS starter?',
       answer: 'Lorem ipsum odor amet, consectetuer adipiscing elit. Aliquam duis porta semper sed gravida montes eu. Aliquam potenti aenean lacinia bibendum tempor tempus. Augue senectus imperdiet mattis maecenas efficitur dictum. Amet libero duis lacinia ut habitant quisque lorem sed. Vitae mauris facilisis congue conubia vulputate sed.',
     },
     {
