@@ -117,46 +117,48 @@
 <template>
   <Card class="pt-4 mx-auto" fluid>
     <template #content>
-      <FloatLabel>
-        <InputText id="name" type="text" v-model="formData.name" :invalid="errors.name" fluid/>
-        <label for="name">Name</label>
-      </FloatLabel>
-
-      <FloatLabel class="mt-8">
-        <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
-        <label for="email">Email address</label>
-      </FloatLabel>
-      
-      <FloatLabel class="mt-8 w-full md:w-1/2">
-        <Select v-model="formData.subject" :invalid="errors.subject" inputId="subject" :options="subjects" optionLabel="name" class="text-left" fluid/>
-        <label for="subject">Subject</label>
-      </FloatLabel>
-
-      <FloatLabel class="mt-8">
-        <Textarea id="message" v-model="formData.message" :invalid="errors.message" rows="5" cols="30" fluid/>
-        <label for="message">Message</label>
-      </FloatLabel>
-
-      <div class="mt-8 grid">
-        <altcha-widget
-          hideFooter
-          hideLogo
-          test
-          challengeurl="/api/challenge"
-          class="mx-auto accent-main"
-        ></altcha-widget>
-      </div>
-
-      <div class="flex items-start mt-4 mb-8 justify-center">
-        <div class="flex items-center h-5 self-center">
-          <Checkbox id="accepted" v-model="formData.accepted" binary/>
+      <form>
+        <FloatLabel>
+          <InputText id="name" type="text" v-model="formData.name" :invalid="errors.name" fluid/>
+          <label for="name">Name</label>
+        </FloatLabel>
+  
+        <FloatLabel class="mt-8">
+          <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
+          <label for="email">Email address</label>
+        </FloatLabel>
+        
+        <FloatLabel class="mt-8 w-full md:w-1/2">
+          <Select v-model="formData.subject" :invalid="errors.subject" inputId="subject" :options="subjects" optionLabel="name" class="text-left" fluid/>
+          <label for="subject">Subject</label>
+        </FloatLabel>
+  
+        <FloatLabel class="mt-8">
+          <Textarea id="message" v-model="formData.message" :invalid="errors.message" rows="5" cols="30" fluid/>
+          <label for="message">Message</label>
+        </FloatLabel>
+  
+        <div class="mt-8 grid">
+          <altcha-widget
+            hideFooter
+            hideLogo
+            test
+            challengeurl="/api/challenge"
+            class="mx-auto accent-main"
+          ></altcha-widget>
         </div>
-        <label for="accepted" class="ml-2">I've read and agrees to the <a href="/terms" class="link">Terms and Conditions</a>.</label>
-      </div>
-
-      <div class="text-center mt-4">
-        <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || !verified || hasError() || sending"/>
-      </div>
+  
+        <div class="flex items-start mt-4 mb-8 justify-center">
+          <div class="flex items-center h-5 self-center">
+            <Checkbox id="accepted" v-model="formData.accepted" binary/>
+          </div>
+          <label for="accepted" class="ml-2">I've read and agrees to the <a href="/terms" class="link">Terms and Conditions</a>.</label>
+        </div>
+  
+        <div class="text-center mt-4">
+          <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || !verified || hasError() || sending"/>
+        </div>
+      </form>
     </template>
   </Card>
 </template>

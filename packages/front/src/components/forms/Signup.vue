@@ -119,47 +119,49 @@
 <template>
   <Card class="pt-4 mx-auto" fluid>
     <template #content>
-      <FloatLabel>
-        <InputText id="name" type="text" v-model="formData.name" :invalid="errors.name" fluid/>
-        <label for="name">Name</label>
-      </FloatLabel>
-
-      <FloatLabel class="mt-8">
-        <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
-        <label for="email">Email address</label>
-      </FloatLabel>
-
-      <FloatLabel class="mt-8">
-        <Password inputId="password" v-model="formData.password" :invalid="errors.password" toggleMask fluid/>
-        <label for="password">Password</label>
-      </FloatLabel>
-
-      <div class="my-8 grid">
-        <altcha-widget
-          hideFooter
-          hideLogo
-          test
-          challengeurl="/api/challenge"
-          class="mx-auto accent-main"
-        ></altcha-widget>
-      </div>
-
-      <div class="flex items-start mt-4 mb-8 justify-center">
-        <div class="flex items-center h-5 self-center">
-          <Checkbox id="accepted" v-model="formData.accepted" binary/>
+      <form>
+        <FloatLabel>
+          <InputText id="name" type="text" v-model="formData.name" :invalid="errors.name" fluid/>
+          <label for="name">Name</label>
+        </FloatLabel>
+  
+        <FloatLabel class="mt-8">
+          <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
+          <label for="email">Email address</label>
+        </FloatLabel>
+  
+        <FloatLabel class="mt-8">
+          <Password inputId="password" v-model="formData.password" :invalid="errors.password" toggleMask fluid/>
+          <label for="password">Password</label>
+        </FloatLabel>
+  
+        <div class="my-8 grid">
+          <altcha-widget
+            hideFooter
+            hideLogo
+            test
+            challengeurl="/api/challenge"
+            class="mx-auto accent-main"
+          ></altcha-widget>
         </div>
-        <label for="accepted" class="ml-2 text-left">
-          I've read and I agrees to the <a href="/terms" class="link">Terms and Conditions</a>.
-        </label>
-      </div>
-
-      <div class="text-center mt-4">
-        <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || !verified || hasError() || sending"/>
-      </div>
-
-      <div class="text-center my-4">
-        <a href="/signin" class="silent underline">I've already got an account</a>
-      </div>
+  
+        <div class="flex items-start mt-4 mb-8 justify-center">
+          <div class="flex items-center h-5 self-center">
+            <Checkbox id="accepted" v-model="formData.accepted" binary/>
+          </div>
+          <label for="accepted" class="ml-2 text-left">
+            I've read and I agrees to the <a href="/terms" class="link">Terms and Conditions</a>.
+          </label>
+        </div>
+  
+        <div class="text-center mt-4">
+          <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || !verified || hasError() || sending"/>
+        </div>
+  
+        <div class="text-center my-4">
+          <a href="/signin" class="silent underline">I've already got an account</a>
+        </div>
+      </form>
     </template>
   </Card>
 </template>

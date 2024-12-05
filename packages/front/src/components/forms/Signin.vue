@@ -81,23 +81,25 @@
 <template>
   <Card class="mx-auto" fluid>
     <template #content>
-      <FloatLabel class="mt-8">
-        <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
-        <label for="email">Email address</label>
-      </FloatLabel>
-
-      <FloatLabel class="mt-8">
-        <Password id="password" v-model="formData.password" :invalid="errors.password" :feedback="false" toggleMask fluid/>
-        <label for="password">Password</label>
-      </FloatLabel>
-
-      <div class="text-center mt-8">
-        <Button type="submit" @click="sendForm" label="Send" :disabled="hasError() || sending"/>
-      </div>
-
-      <div class="text-center my-4">
-        <a href="/signup" class="silent underline">Create an account</a>
-      </div>
+      <form>
+        <FloatLabel class="mt-8">
+          <InputText id="email" type="email" v-model="formData.email" :invalid="errors.email" fluid/>
+          <label for="email">Email address</label>
+        </FloatLabel>
+  
+        <FloatLabel class="mt-8">
+          <Password id="password" v-model="formData.password" :invalid="errors.password" :feedback="false" toggleMask fluid/>
+          <label for="password">Password</label>
+        </FloatLabel>
+  
+        <div class="text-center mt-8">
+          <Button type="submit" @click="sendForm" label="Send" :disabled="hasError() || sending"/>
+        </div>
+  
+        <div class="text-center my-4">
+          <a href="/signup" class="silent underline">Create an account</a>
+        </div>
+      </form>
     </template>
   </Card>
 </template>
