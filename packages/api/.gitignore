@@ -1,0 +1,5 @@
+# users database
+auth.db
+
+# better-auth migrations
+better-auth_migrations/
