@@ -8,9 +8,6 @@
     "pm2:start": "pm2 start pm2.config.js",
     "pm2:stop": "pm2 stop pm2.config.js",
     "pm2:status": "pm2 status pm2.config.js",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push",
-    "prisma:update": "npm run prisma:generate && npm run prisma:push",
     "better-auth:generate": "npx @better-auth/cli generate",
     "better-auth:migrate": "npx @better-auth/cli migrate"
   },
@@ -18,7 +15,6 @@
     "@hapi/boom": "^10.0.1",
     "@hapi/hapi": "^21.3.12",
     "@hapi/hoek": "^11.0.7",
-    "@prisma/client": "^6.0.0",
     "altcha-lib": "^1.1.1",
     "better-auth": "^1.0.7",
     "better-sqlite3": "^11.6.0",
@@ -49,7 +45,6 @@
     "eslint-plugin-promise": "^7.2.1",
     "nodemon": "^3.1.7",
     "pm2": "^5.4.3",
-    "prisma": "^6.0.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0"
   }
