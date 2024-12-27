@@ -1,0 +1,5 @@
+Welcome on Astro HapiJS starter!
+To finish setting up your account please click on the following verification link: ${link}
+
+Best regards,
+Astro HapiJS starter
