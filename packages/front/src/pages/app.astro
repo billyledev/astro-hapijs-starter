@@ -1,0 +1,10 @@
+---
+import DefaultLayout from '../layouts/Default.astro';
+import AppComponent from '@components/App.vue';
+
+const title = 'App';
+---
+
+<DefaultLayout title={title}>
+  <AppComponent client:only="vue"/>
+</DefaultLayout>

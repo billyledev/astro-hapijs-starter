@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-  import { ref, reactive, onMounted, watch } from 'vue';
+  import { ref, reactive, watch } from 'vue';
   import { authClient } from '@lib/auth-client';
   import { useToast } from 'primevue/usetoast';
-  await import('altcha');
 
   const toast = useToast();
 
@@ -39,19 +38,6 @@
 
   const formData = reactive<SignupData>({ ...initialValues });
   const errors = reactive<ErrorsData>({ ...initialErrorValues });
-
-  onMounted(() => {
-    const widget = document.querySelector('altcha-widget');
-
-    widget?.addEventListener('statechange', (e) => {
-      const { detail } = e as AltchaStateChangeEvent;
-      if (detail.state === 'verified') {
-        verified.value = true;
-      } else {
-        verified.value = false;
-      }
-    })
-  });
 
   watch(formData, async () => {
     clearErrors();
@@ -102,13 +88,8 @@
     });
   };
 
-  const resetCaptcha = () => {
-    (document.querySelector('altcha-widget') as any).reset();
-  };
-
   const clearForm = () => {
     Object.assign(formData, initialValues);
-    resetCaptcha();
   };
 
   const clearErrors = () => {
@@ -134,17 +115,7 @@
           <Password inputId="password" v-model="formData.password" :invalid="errors.password" toggleMask fluid/>
           <label for="password">Password</label>
         </FloatLabel>
-  
-        <div class="my-8 grid">
-          <altcha-widget
-            hideFooter
-            hideLogo
-            test
-            challengeurl="/api/challenge"
-            class="mx-auto accent-main"
-          ></altcha-widget>
-        </div>
-  
+
         <div class="flex items-start mt-4 mb-8 justify-center">
           <div class="flex items-center h-5 self-center">
             <Checkbox id="accepted" v-model="formData.accepted" binary/>

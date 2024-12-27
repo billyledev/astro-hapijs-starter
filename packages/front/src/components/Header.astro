@@ -1,12 +1,17 @@
 ---
 import Container from '@components/Container.astro';
 import ThemeToggle from '@components/buttons/ThemeToggle.astro';
+import SignInButton from '@components/buttons/OpenApp.vue';
 
 import { SITE } from '@data/constants';
 
 const currentPath = Astro.url.pathname;
 
 const getHomeAnchor = (anchor: string) => currentPath === '/' ? anchor : `/${anchor}`;
+
+const isOnSignInPage = () => currentPath === '/signin';
+
+const isOnAppPage = () => currentPath === '/app';
 
 const links = [
   {
@@ -75,20 +80,26 @@ const links = [
         <div id="navLayer" aria-hidden="true" class="fixed inset-0 z-10 h-screen w-screen origin-bottom scale-y-0 backdrop-blur-2xl transition duration-500 lg:hidden"></div>
         <div id="navlinks" class="invisible align-middle absolute top-full left-0 z-20 w-full origin-top-right translate-y-1 scale-90 flex-col flex-wrap justify-end gap-6 rounded-3xl border border-black/10 dark:border-white/20 p-8 opacity-0 shadow-2xl shadow-gray-600/10 transition-all duration-300 lg:visible lg:relative lg:flex lg:w-7/12 lg:translate-y-0 lg:scale-100 lg:flex-row lg:items-center lg:gap-0 lg:border-none bg-white dark:bg-neutral-900 lg:bg-transparent dark:lg:bg-transparent lg:p-0 lg:opacity-100 lg:shadow-none">
           <div class="w-full lg:w-auto lg:pt-0 mr-2">
-            <ul class="flex flex-col tracking-wide lg:flex-row gap-4 lg:text-sm items-center">
-              {
-                links.map((link) => (
-                  <li>
-                    <a href={link.to} class="transition silent">
-                      <span>{link.label}</span>
-                    </a>
-                  </li>
-                ))
-              }
-              <li class="pb-0.5">
-                <ThemeToggle/>
-              </li>
-            </ul>
+            {
+              !isOnAppPage() &&
+              <ul class="flex flex-col tracking-wide lg:flex-row gap-4 lg:text-sm items-center">
+                {
+                  links.map((link) => (
+                    <li>
+                      <a href={link.to} class="transition silent">
+                        <span>{link.label}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+                <li class="pb-0.5">
+                  <ThemeToggle/>
+                </li>
+                {
+                  !isOnSignInPage() && <SignInButton client:only="vue"/>
+                }
+              </ul>
+            }
           </div>
         </div>
       </div>

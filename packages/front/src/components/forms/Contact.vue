@@ -1,6 +1,13 @@
 <script lang="ts" setup>
   import { ref, reactive, onMounted, watch } from 'vue';
+  import { useToast } from 'primevue/usetoast';
   await import('altcha');
+
+  const toast = useToast();
+  type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast' | undefined;
+
+  const STATUS_OK = 200;
+  const STATUS_BAD_REQUEST = 400;
 
   const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -85,6 +92,27 @@
     return Object.values(errors).some(error => error);
   };
 
+  const addToast = (severity: ToastSeverity, summary: string, detail: string) => {
+    toast.add({
+      severity,
+      summary,
+      detail,
+      life: 3000,
+    });
+  };
+
+  const addSuccessToast = (summary: string, content: string) => {
+    addToast('success', summary, content);
+  };
+
+  const addErrorToast = (summary: string, content: string) => {
+    addToast('error', summary, content);
+  };
+
+  const getSubject = () => {
+    return formData.subject ? (formData.subject as Subject).value : '';
+  };
+
   const sendForm = (e: Event) => {
     e.preventDefault();
 
@@ -98,6 +126,34 @@
     if (hasError()) return;
 
     sending.value = true;
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: getSubject(),
+        message: formData.message,
+        validation: (document.querySelector('input[name="altcha"]') as HTMLInputElement).value,
+      }),
+    }).then(async (response) => {
+      if (response.status === STATUS_OK) {
+        addSuccessToast('Success', 'Your message was successfully sent.');
+        clearForm();
+      } else if (response.status === STATUS_BAD_REQUEST) {
+        addErrorToast('Error', 'Invalid captcha.');
+        resetCaptcha();
+      } else {
+        addErrorToast('Error', 'Unknown error, please try again later.');
+      }
+    }).catch(() => {
+      addErrorToast('Error', 'Unknown error, please try again later.');
+    }).finally(() => {
+      sending.value = false;
+    });
   };
 
   const resetCaptcha = () => {
@@ -111,7 +167,7 @@
 
   const clearErrors = () => {
     Object.assign(errors, initialErrorValues);
-  }
+  };
 </script>
 
 <template>
@@ -142,8 +198,7 @@
           <altcha-widget
             hideFooter
             hideLogo
-            test
-            challengeurl="/api/challenge"
+            challengeurl="/api/captcha/challenge"
             class="mx-auto accent-main"
           ></altcha-widget>
         </div>
