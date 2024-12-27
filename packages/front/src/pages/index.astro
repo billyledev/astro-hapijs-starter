@@ -1,15 +1,21 @@
 ---
+import { Image } from 'astro:assets';
 import DefaultLayout from '../layouts/Default.astro';
 import Hero from '@components/landing/Hero.vue';
 import Features from '@components/landing/Features.vue';
 import Pricing from '@components/landing/Pricing.vue';
 import FAQs from '@components/landing/FAQs.vue';
+import demoAnimation from '@assets/demo.gif';
 ---
 
 <DefaultLayout>
   <main class="py-16 space-y-16 text-center">
     <div class="w-full md:w-2/3 lg:w-1/2 mx-auto px-4 pb-16">
-      <Hero client:only="vue"/>
+      <Hero client:only="vue">
+        <div slot="demo-gif">
+          <Image src={demoAnimation} alt="Demo of the product" class="mx-auto w-full"/>
+        </div>
+      </Hero>
     </div>
     <div class="w-full xl:w-3/4 px-4 md:px-16 mx-auto pb-16">
       <h2 id="features">Main features</h1>

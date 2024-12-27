@@ -8,8 +8,10 @@ import Footer from '@components/Footer.astro';
 import Toast from 'primevue/toast';
 
 import { SITE } from '@data/constants';
+import socialImage from '@assets/social.png';
 
 const { title } = Astro.props;
+const fullTitle = title ? `${title} - ${SITE.title}` : SITE.title;
 ---
 
 <!DOCTYPE html>
@@ -19,6 +21,9 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width"/>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="description" content={SITE.description}/>
+    <meta property="og:title" content={fullTitle}/>
+    <meta property="og:description" content={SITE.description}/>
+    <meta property="og:image" content={socialImage.src}/>
     <title>{ title ? `${title} - ${SITE.title}` : SITE.title }</title>
     <AstroFont
       config={[
