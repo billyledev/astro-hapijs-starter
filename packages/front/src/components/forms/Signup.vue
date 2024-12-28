@@ -21,7 +21,6 @@
   }
 
   const sending = ref(false);
-  const verified = ref(false);
 
   const initialValues: SignupData = {
     name: '',
@@ -126,7 +125,7 @@
         </div>
   
         <div class="text-center mt-4">
-          <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || !verified || hasError() || sending"/>
+          <Button type="submit" @click="sendForm" label="Send" :disabled="!formData.accepted || hasError() || sending"/>
         </div>
   
         <div class="text-center my-4">
