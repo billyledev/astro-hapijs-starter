@@ -6,7 +6,13 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "postinstall": "npm run better-auth:generate -w api -- -y && npm run better-auth:migrate -w api -- -y",
+    "start": "concurrently --kill-others \"npm start -w front\" \"npm start -w api\"",
+    "build": "npm run build -w front && npm run build -w api"
+  },
   "devDependencies": {
+    "concurrently": "^9.1.1",
     "typescript": "^5.7.2"
   }
 }
