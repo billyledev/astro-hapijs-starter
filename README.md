@@ -7,6 +7,7 @@ A simple static webapp template with authentication feature.
 - Create the `.env` files from `example.env` in the `packages/front` and `packages/api` directories
 - Install the dependencies with `npm install`
 - Launch the app with `npm start`
+- Open [http://localhost:4321](http://localhost:4321) to access the app
 
 ## Technical stack
 - [Astro](https://astro.build), [Vue](https://vuejs.org), [PrimeVue](https://primevue.org) and [Tailwind](https://tailwindcss.com) for a beautiful static frontend
