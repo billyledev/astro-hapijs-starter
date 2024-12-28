@@ -15,3 +15,6 @@ A simple static webapp template with authentication feature.
 - [BetterAuth](https://better-auth.vercel.app) to manage the authentication
 - [Altcha](https://altcha.org) to manage the captcha integration
 - [TypeScript](https://www.typescriptlang.org) everywhere
+
+## Demo
+[![Astro HapiJS starter image](https://i.ytimg.com/vi/MKXy0GBJ48Q/maxresdefault.jpg)](https://www.youtube.com/watch?v=MKXy0GBJ48Q)
