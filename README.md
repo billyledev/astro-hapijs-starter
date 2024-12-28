@@ -4,7 +4,7 @@ A simple static webapp template with authentication feature.
 ## Quick start
 - Launch a local SMTP test server on port 1025, for example [MailHog](https://github.com/mailhog/MailHog)
 - Clone the repository
-- Create the `.env` files from `example.env` in the `packages/front` and `packages/api` directories
+- Create the `.env` file from `example.env` in the `packages/api` directory (`cp packages/api/example.env packages/api/.env`)
 - Install the dependencies with `npm install`
 - Launch the app with `npm start`
 - Open [http://localhost:4321](http://localhost:4321) to access the app
