@@ -49,7 +49,7 @@ const getAuth = (sendEmail: EmailSenderFunction): ReturnType<typeof betterAuth> 
         template: 'welcome',
         data: {
           name,
-          link: url,
+          link: url.replace(FRONTEND_URL, `${FRONTEND_URL}/api`),
         },
       });
     },
